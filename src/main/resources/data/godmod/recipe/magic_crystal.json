@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "misc",
+    "pattern": [
+        "NDN",
+        "NDN",
+        "NDN"
+    ],
+    "key": {
+        "N": "minecraft:netherite_ingot",
+        "D": "minecraft:diamond"
+    },
+    "result": {
+        "id": "godmod:magic_crystal",
+        "count": 1
+    }
+}

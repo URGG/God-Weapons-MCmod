@@ -55,7 +55,7 @@ public class ModItems {
                 .register(entries -> entries.add(MAGIC_CRYSTAL));
     }
 
-    // New registration method for 1.21.4
+
     public static Item register(String name, Function<Item.Settings, Item> itemFactory, Item.Settings settings) {
         // Create the item key
         RegistryKey<Item> itemKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(GodMod.MOD_ID, name));

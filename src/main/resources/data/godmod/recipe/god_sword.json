@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "equipment",
+    "pattern": [
+        " C ",
+        " C ",
+        " S "
+    ],
+    "key": {
+        "C": "godmod:magic_crystal",
+        "S": "minecraft:stick"
+    },
+    "result": {
+        "id": "godmod:god_sword",
+        "count": 1
+    }
+}

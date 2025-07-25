@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"id": "godmod",
-	"version": "${version}",
+	"version": "1.0.0",
 	"name": "God Mod",
 	"description": "This is an example description! Tell everyone what your mod is about!",
 	"authors": [
@@ -17,21 +17,12 @@
 	"entrypoints": {
 		"main": [
 			"com.example.GodMod"
-		],
-		"client": [
-			"com.example.ExampleModClient"
 		]
 	},
-	"mixins": [
-		"modid.mixins.json"
-	],
 	"depends": {
 		"fabricloader": ">=0.16.9",
 		"minecraft": "~1.21.4",
 		"java": ">=21",
 		"fabric-api": "*"
-	},
-	"suggests": {
-		"another-mod": "*"
 	}
 }
