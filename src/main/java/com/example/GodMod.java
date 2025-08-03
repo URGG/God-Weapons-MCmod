@@ -13,14 +13,20 @@ public class GodMod implements ModInitializer {
         LOGGER.info("=== GODMOD STARTING TO INITIALIZE ===");
         LOGGER.info("Hello Fabric world!");
 
-        // Initialize mod items
         LOGGER.info("About to initialize ModItems...");
         ModItems.initialize();
         LOGGER.info("ModItems.initialize() completed!");
 
-        // Check if items were created
+        LOGGER.info("About to initialize ModScrolls...");
+        ModScrolls.initialize();  // This was missing!
+        LOGGER.info("ModScrolls.initialize() completed!");
+
+
+
+
         LOGGER.info("GOD_SWORD is: " + (ModItems.GOD_SWORD != null ? "NOT NULL" : "NULL"));
         LOGGER.info("MAGIC_CRYSTAL is: " + (ModItems.MAGIC_CRYSTAL != null ? "NOT NULL" : "NULL"));
+        LOGGER.info("FIREBALL_SCROLL is: " + (ModScrolls.FIREBALL_SCROLL != null ? "NOT NULL" : "NULL"));
 
         LOGGER.info("=== GODMOD INITIALIZATION COMPLETE ===");
     }
