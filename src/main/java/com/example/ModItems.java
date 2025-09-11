@@ -2,11 +2,7 @@ package com.example;
 
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroups;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.SwordItem;
-import net.minecraft.item.ToolMaterial;
+import net.minecraft.item.*;
 import net.minecraft.registry.*;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.ItemTags;
@@ -28,9 +24,10 @@ public class ModItems {
             ItemTags.NETHERITE_TOOL_MATERIALS // repairItems
     );
 
-    // Declare only non-scroll items here
+
     public static Item GOD_SWORD;
     public static Item MAGIC_CRYSTAL;
+    public static Item GOD_AXE;
 
     public static void initialize() {
         System.out.println("Registering items for " + GodMod.MOD_ID);
@@ -38,12 +35,15 @@ public class ModItems {
         // Register only non-scroll items
         GOD_SWORD = registerItem("god_sword", key -> new GodSwordItem(GOD_MATERIAL, new Item.Settings().registryKey(key).maxCount(1)));
         MAGIC_CRYSTAL = registerItem("magic_crystal", key -> new Item(new Item.Settings().registryKey(key)));
+        GOD_AXE = registerItem("god_axe", key ->new GodAxe(GOD_MATERIAL, new Item.Settings().registryKey(key).maxCount(1)));
 
-        // REMOVED: ModScrolls.initialize(); - This was causing the duplicate registration!
 
-        // Add to creative tabs using ItemStack instead of ItemConvertible
+
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT)
                 .register(entries -> entries.add(new ItemStack(GOD_SWORD)));
+
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT)
+                        .register(entries -> entries.add(new ItemStack(GOD_AXE)));
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS)
                 .register(entries -> entries.add(new ItemStack(MAGIC_CRYSTAL)));
@@ -54,6 +54,25 @@ public class ModItems {
         Identifier id = Identifier.of(GodMod.MOD_ID, name);
         RegistryKey<Item> key = RegistryKey.of(Registries.ITEM.getKey(), id);
         return Registry.register(Registries.ITEM, id, function.apply(key));
+    }
+
+    public static class GodAxe extends AxeItem {
+        public GodAxe(ToolMaterial material, Item.Settings settings) {
+
+            super(material, 21000.0f, -2.5f, settings);
+        }
+
+        @Override
+        public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker){
+            World world = target.getWorld();
+            if(!world.isClient() && world instanceof ServerWorld serverWorld) {
+
+                target.damage(serverWorld, serverWorld.getDamageSources().generic(), 2100.0f);
+            }
+            return super.postHit(stack, target, attacker);
+        }
+
+
     }
 
     public static class GodSwordItem extends SwordItem {
