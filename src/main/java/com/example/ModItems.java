@@ -3,6 +3,7 @@ package com.example;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.*;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.*;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.ItemTags;
@@ -43,7 +44,7 @@ public class ModItems {
                 .register(entries -> entries.add(new ItemStack(GOD_SWORD)));
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT)
-                        .register(entries -> entries.add(new ItemStack(GOD_AXE)));
+                .register(entries -> entries.add(new ItemStack(GOD_AXE)));
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS)
                 .register(entries -> entries.add(new ItemStack(MAGIC_CRYSTAL)));
@@ -58,7 +59,6 @@ public class ModItems {
 
     public static class GodAxe extends AxeItem {
         public GodAxe(ToolMaterial material, Item.Settings settings) {
-
             super(material, 21000.0f, -2.5f, settings);
         }
 
@@ -66,18 +66,41 @@ public class ModItems {
         public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker){
             World world = target.getWorld();
             if(!world.isClient() && world instanceof ServerWorld serverWorld) {
-
+                // Deal damage
                 target.damage(serverWorld, serverWorld.getDamageSources().generic(), 2100.0f);
+
+                // Purple particle effects for the axe
+                serverWorld.spawnParticles(
+                        ParticleTypes.WITCH,              // Purple witch particles
+                        target.getX(),
+                        target.getY() + target.getHeight() / 2,
+                        target.getZ(),
+                        12,                               // Particle count
+                        0.5,                              // X spread
+                        0.5,                              // Y spread
+                        0.5,                              // Z spread
+                        0.1                               // Speed
+                );
+
+                // Add some portal particles (also purple)
+                serverWorld.spawnParticles(
+                        ParticleTypes.PORTAL,
+                        target.getX(),
+                        target.getY() + target.getHeight(),
+                        target.getZ(),
+                        8,
+                        0.3,
+                        0.3,
+                        0.3,
+                        0.05
+                );
             }
             return super.postHit(stack, target, attacker);
         }
-
-
     }
 
     public static class GodSwordItem extends SwordItem {
         public GodSwordItem(ToolMaterial material, Item.Settings settings) {
-
             super(material, 2000.0f, -2.4f, settings);
         }
 
@@ -85,8 +108,34 @@ public class ModItems {
         public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
             World world = target.getWorld();
             if (!world.isClient() && world instanceof ServerWorld serverWorld) {
-                // Damage method for 1.21.4
+                // Deal damage
                 target.damage(serverWorld, serverWorld.getDamageSources().generic(), 2000.0f);
+
+                // Fire particles for the sword (subtle amount)
+                serverWorld.spawnParticles(
+                        ParticleTypes.FLAME,
+                        target.getX(),
+                        target.getY() + target.getHeight() / 2,
+                        target.getZ(),
+                        6,                                // Moderate particle count
+                        0.3,                              // X spread
+                        0.3,                              // Y spread
+                        0.3,                              // Z spread
+                        0.08                              // Speed
+                );
+
+                // Add some smoke for fire effect
+                serverWorld.spawnParticles(
+                        ParticleTypes.SMOKE,
+                        target.getX(),
+                        target.getY() + target.getHeight() / 2,
+                        target.getZ(),
+                        4,
+                        0.2,
+                        0.2,
+                        0.2,
+                        0.05
+                );
             }
             return super.postHit(stack, target, attacker);
         }
