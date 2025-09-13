@@ -17,6 +17,9 @@
 	"entrypoints": {
 		"main": [
 			"com.example.GodMod"
+		],
+		"client": [
+			"com.example.ExampleModClient"
 		]
 	},
 	"depends": {

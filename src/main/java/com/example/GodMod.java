@@ -21,7 +21,7 @@ public class GodMod implements ModInitializer {
         ModScrolls.initialize();  // This was missing!
         LOGGER.info("ModScrolls.initialize() completed!");
         ModEntities.initialize();
-        ModBlocks.initialize();
+        //ModBlocks.initialize();
 
 
 

@@ -30,7 +30,6 @@ public class ModItems {
             ItemTags.NETHERITE_TOOL_MATERIALS // repairItems
     );
 
-
     public static Item GOD_SWORD;
     public static Item MAGIC_CRYSTAL;
     public static Item GOD_AXE;
@@ -43,8 +42,6 @@ public class ModItems {
         MAGIC_CRYSTAL = registerItem("magic_crystal", key -> new Item(new Item.Settings().registryKey(key)));
         GOD_AXE = registerItem("god_axe", key ->new GodAxe(GOD_MATERIAL, new Item.Settings().registryKey(key).maxCount(1)));
 
-
-
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT)
                 .register(entries -> entries.add(new ItemStack(GOD_SWORD)));
 
@@ -55,7 +52,6 @@ public class ModItems {
                 .register(entries -> entries.add(new ItemStack(MAGIC_CRYSTAL)));
     }
 
-
     public static Item registerItem(String name, Function<RegistryKey<Item>, Item> function) {
         Identifier id = Identifier.of(GodMod.MOD_ID, name);
         RegistryKey<Item> key = RegistryKey.of(Registries.ITEM.getKey(), id);
@@ -65,6 +61,42 @@ public class ModItems {
     public static class GodAxe extends AxeItem {
         public GodAxe(ToolMaterial material, Item.Settings settings) {
             super(material, 21000.0f, -2.5f, settings);
+        }
+
+        @Override
+        public ActionResult use(World world, PlayerEntity user, Hand hand) {
+            ItemStack itemStack = user.getStackInHand(hand);
+
+            if (!world.isClient()) {
+                try {
+                    // Create the simple throwable axe entity
+                    ThrowableGodAxeEntity thrownAxe = new ThrowableGodAxeEntity(world, user);
+
+                    // Set velocity manually
+                    thrownAxe.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 1.5f, 1.0f);
+
+                    // Spawn the entity
+                    world.spawnEntity(thrownAxe);
+
+                    // Play throw sound
+                    world.playSound(null, user.getBlockPos(),
+                            SoundEvents.ENTITY_SNOWBALL_THROW,
+                            SoundCategory.PLAYERS, 0.5f, 0.4f / (world.getRandom().nextFloat() * 0.4f + 0.8f));
+
+                    // Remove the axe from inventory
+                    if (!user.getAbilities().creativeMode) {
+                        itemStack.decrement(1);
+                    }
+
+                } catch (Exception e) {
+                    System.err.println("Error throwing axe: " + e.getMessage());
+                    e.printStackTrace();
+                    return ActionResult.FAIL;
+                }
+            }
+
+            user.incrementStat(net.minecraft.stat.Stats.USED.getOrCreateStat(this));
+            return ActionResult.SUCCESS;
         }
 
         @Override
