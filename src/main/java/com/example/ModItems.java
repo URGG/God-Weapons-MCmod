@@ -2,12 +2,17 @@ package com.example;
 
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.*;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
@@ -94,23 +99,138 @@ public class ModItems {
                         0.3,
                         0.05
                 );
+
+                // Sound effects for the axe - mystical/magical sounds
+                serverWorld.playSound(
+                        null,                              // Player (null = all players can hear)
+                        target.getBlockPos(),              // Position
+                        SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, // Mystical enchanting sound
+                        SoundCategory.PLAYERS,             // Sound category
+                        0.8f,                              // Volume
+                        1.2f + world.random.nextFloat() * 0.3f // Pitch (slightly higher with randomness)
+                );
+
+                // Additional ominous sound for the god axe
+                serverWorld.playSound(
+                        null,
+                        target.getBlockPos(),
+                        SoundEvents.ENTITY_WITHER_HURT,    // Deep, ominous sound
+                        SoundCategory.PLAYERS,
+                        0.4f,                              // Lower volume for atmosphere
+                        0.7f + world.random.nextFloat() * 0.2f // Lower pitch
+                );
             }
             return super.postHit(stack, target, attacker);
         }
     }
 
     public static class GodSwordItem extends SwordItem {
+        private int lastAttackTime = 0;
+
         public GodSwordItem(ToolMaterial material, Item.Settings settings) {
             super(material, 2000.0f, -2.4f, settings);
+        }
+
+        @Override
+        public void inventoryTick(ItemStack stack, World world, net.minecraft.entity.Entity entity, int slot, boolean selected) {
+            if (selected && entity instanceof PlayerEntity player && !world.isClient()) {
+                ServerWorld serverWorld = (ServerWorld) world;
+
+                // Check if player is attacking (left-clicking)
+                if (player.getAttackCooldownProgress(0.0F) > 0.9F && player.handSwinging && lastAttackTime != player.age) {
+                    lastAttackTime = player.age;
+
+                    // Swing sound effect
+                    serverWorld.playSound(
+                            null,
+                            player.getBlockPos(),
+                            SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP,
+                            SoundCategory.PLAYERS,
+                            0.7f,
+                            1.0f + world.random.nextFloat() * 0.3f
+                    );
+
+                    // Fire particle trail when swinging
+                    serverWorld.spawnParticles(
+                            ParticleTypes.FLAME,
+                            player.getX(),
+                            player.getY() + player.getHeight() / 2,
+                            player.getZ(),
+                            6,
+                            1.0,
+                            0.5,
+                            1.0,
+                            0.05
+                    );
+
+                    // Some smoke for effect
+                    serverWorld.spawnParticles(
+                            ParticleTypes.SMOKE,
+                            player.getX(),
+                            player.getY() + player.getHeight() / 2,
+                            player.getZ(),
+                            3,
+                            0.8,
+                            0.3,
+                            0.8,
+                            0.02
+                    );
+                }
+            }
+            super.inventoryTick(stack, world, entity, slot, selected);
+        }
+
+        @Override
+        public boolean onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
+            // This triggers when you finish using/swinging the item
+            if (!world.isClient() && world instanceof ServerWorld serverWorld) {
+                // Swing sound effect
+                serverWorld.playSound(
+                        null,
+                        user.getBlockPos(),
+                        SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP,  // Swoosh sound
+                        SoundCategory.PLAYERS,
+                        0.7f,
+                        1.0f + world.random.nextFloat() * 0.3f
+                );
+
+                // Fire particle trail around the player
+                serverWorld.spawnParticles(
+                        ParticleTypes.FLAME,
+                        user.getX(),
+                        user.getY() + user.getHeight() / 2,
+                        user.getZ(),
+                        6,
+                        1.0,
+                        0.5,
+                        1.0,
+                        0.05
+                );
+
+                // Some smoke for effect
+                serverWorld.spawnParticles(
+                        ParticleTypes.SMOKE,
+                        user.getX(),
+                        user.getY() + user.getHeight() / 2,
+                        user.getZ(),
+                        3,
+                        0.8,
+                        0.3,
+                        0.8,
+                        0.02
+                );
+            }
+            return super.onStoppedUsing(stack, world, user, remainingUseTicks);
         }
 
         @Override
         public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
             World world = target.getWorld();
             if (!world.isClient() && world instanceof ServerWorld serverWorld) {
-                // Deal damage
-                target.damage(serverWorld, serverWorld.getDamageSources().generic(), 2000.0f);
+                // Debug print
+                System.out.println("God Sword postHit triggered!");
 
+                // Spawn effects BEFORE damage to ensure they show
                 // Fire particles for the sword (subtle amount)
                 serverWorld.spawnParticles(
                         ParticleTypes.FLAME,
@@ -136,6 +256,19 @@ public class ModItems {
                         0.2,
                         0.05
                 );
+
+                // Sound effects for the sword - fiery/explosive sounds
+                serverWorld.playSound(
+                        null,                              // Player (null = all players can hear)
+                        target.getBlockPos(),              // Position
+                        SoundEvents.ITEM_FIRECHARGE_USE,  // Fire/ignition sound
+                        SoundCategory.PLAYERS,             // Sound category
+                        0.7f,                              // Volume
+                        1.0f + world.random.nextFloat() * 0.4f // Pitch with randomness
+                );
+
+                // Deal damage AFTER effects
+                target.damage(serverWorld, serverWorld.getDamageSources().generic(), 2000.0f);
             }
             return super.postHit(stack, target, attacker);
         }

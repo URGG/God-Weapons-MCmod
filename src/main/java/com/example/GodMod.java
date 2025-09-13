@@ -20,6 +20,8 @@ public class GodMod implements ModInitializer {
         LOGGER.info("About to initialize ModScrolls...");
         ModScrolls.initialize();  // This was missing!
         LOGGER.info("ModScrolls.initialize() completed!");
+        ModEntities.initialize();
+        ModBlocks.initialize();
 
 
 
