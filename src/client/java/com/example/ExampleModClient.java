@@ -1,15 +1,26 @@
 package com.example;
 
+import com.example.ModEntities;
+import com.example.model.GodBossEntityModel;
+import com.example.renderer.GodBossEntityRenderer;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 
 public class ExampleModClient implements ClientModInitializer {
+
 	@Override
 	public void onInitializeClient() {
 		// Register entity renderer for the throwable axe
 		EntityRendererRegistry.register(ModEntities.THROWABLE_GOD_AXE, FlyingItemEntityRenderer::new);
 
-		System.out.println("GodMod client initialized with entity renderers");
+		// Register the boss entity renderer
+		EntityRendererRegistry.register(ModEntities.GOD_BOSS, GodBossEntityRenderer::new);
+
+		// Register the boss model layer
+		EntityModelLayerRegistry.registerModelLayer(GodBossEntityRenderer.GOD_BOSS_MODEL_LAYER, GodBossEntityModel::getTexturedModelData);
+
+		System.out.println("GodMod client initialized with entity renderers and custom boss model");
 	}
 }

@@ -33,14 +33,17 @@ public class ModItems {
     public static Item GOD_SWORD;
     public static Item MAGIC_CRYSTAL;
     public static Item GOD_AXE;
+    public static Item SUMMONING_CRYSTAL;
 
     public static void initialize() {
         System.out.println("Registering items for " + GodMod.MOD_ID);
 
-        // Register only non-scroll items
+        // Register items - NOTE: SUMMONING_CRYSTAL now uses SummoningCrystalItem class
         GOD_SWORD = registerItem("god_sword", key -> new GodSwordItem(GOD_MATERIAL, new Item.Settings().registryKey(key).maxCount(1)));
         MAGIC_CRYSTAL = registerItem("magic_crystal", key -> new Item(new Item.Settings().registryKey(key)));
         GOD_AXE = registerItem("god_axe", key ->new GodAxe(GOD_MATERIAL, new Item.Settings().registryKey(key).maxCount(1)));
+        // FIXED: Use SummoningCrystalItem instead of regular Item
+        SUMMONING_CRYSTAL = registerItem("summoning_crystal", key -> new SummoningCrystalItem(new Item.Settings().registryKey(key).maxCount(1)));
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT)
                 .register(entries -> entries.add(new ItemStack(GOD_SWORD)));
@@ -50,6 +53,9 @@ public class ModItems {
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS)
                 .register(entries -> entries.add(new ItemStack(MAGIC_CRYSTAL)));
+
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS)
+                .register(entries -> entries.add(new ItemStack(SUMMONING_CRYSTAL)));
     }
 
     public static Item registerItem(String name, Function<RegistryKey<Item>, Item> function) {
