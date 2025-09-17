@@ -18,8 +18,8 @@ public class ExampleModClient implements ClientModInitializer {
 		// Register the boss entity renderer
 		EntityRendererRegistry.register(ModEntities.GOD_BOSS, GodBossEntityRenderer::new);
 
-		// Register the boss model layer
-		EntityModelLayerRegistry.registerModelLayer(GodBossEntityRenderer.GOD_BOSS_MODEL_LAYER, GodBossEntityModel::getTexturedModelData);
+
+
 
 		System.out.println("GodMod client initialized with entity renderers and custom boss model");
 	}

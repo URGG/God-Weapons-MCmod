@@ -375,19 +375,19 @@ public class GodBossEntity extends HostileEntity {
     private void performDeathEffects(ServerWorld serverWorld) {
         Vec3d bossPos = this.getPos();
 
-        // Initialize death explosion sequence
+        
         deathCenter = bossPos;
         currentDeathWave = 0;
         deathEffectTimer = 1; // Start immediately
 
-        // Final explosion
+
         serverWorld.spawnParticles(
                 ParticleTypes.END_ROD,
                 bossPos.x, bossPos.y + this.getHeight() / 2, bossPos.z,
                 100, 3.0, 2.0, 3.0, 0.3
         );
 
-        // Victory announcement
+        // Victory Royale #1 fortnite player announcement
         serverWorld.getServer().getPlayerManager().broadcast(
                 Text.literal("§a⚡ The Crystal Guardian has been defeated! ⚡"),
                 false
@@ -410,7 +410,7 @@ public class GodBossEntity extends HostileEntity {
         super.dropLoot(world, damageSource, causedByPlayer);
 
         // Guaranteed drops
-        this.dropStack(world, new ItemStack(ModItems.MAGIC_CRYSTAL, 5 + this.random.nextInt(3))); // 5-7 crystals
+        this.dropStack(world, new ItemStack(ModItems.MAGIC_CRYSTAL, 5 + this.random.nextInt(3)));
 
         // Rare weapons (25% chance each)
         if (this.random.nextFloat() < 0.25f) {

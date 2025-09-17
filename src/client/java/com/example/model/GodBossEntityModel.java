@@ -36,73 +36,7 @@ public class GodBossEntityModel extends EntityModel<GodBossEntityRenderState> {
         this.cape = body.getChild("cape");
     }
 
-    public static TexturedModelData getTexturedModelData() {
-        ModelData modelData = new ModelData();
-        ModelPartData modelPartData = modelData.getRoot();
 
-        // Scale factor for making the boss bigger (2x larger than normal)
-        float scale = 2.0f;
-
-        // Head (bigger than normal)
-        ModelPartData head = modelPartData.addChild("head",
-                ModelPartBuilder.create()
-                        .uv(0, 0)
-                        .cuboid(-4.0f, -8.0f, -4.0f, 8.0f, 8.0f, 8.0f, new Dilation(scale - 1.0f)),
-                ModelTransform.pivot(0.0f, 0.0f, 0.0f));
-
-        // Crown on top of head (unique to boss)
-        head.addChild("crown",
-                ModelPartBuilder.create()
-                        .uv(32, 0)
-                        .cuboid(-6.0f, -12.0f, -6.0f, 12.0f, 4.0f, 12.0f),
-                ModelTransform.pivot(0.0f, 0.0f, 0.0f));
-
-        // Body (taller and wider)
-        ModelPartData body = modelPartData.addChild("body",
-                ModelPartBuilder.create()
-                        .uv(16, 16)
-                        .cuboid(-4.0f, 0.0f, -2.0f, 8.0f, 12.0f, 4.0f, new Dilation(scale - 1.0f)),
-                ModelTransform.pivot(0.0f, 0.0f, 0.0f));
-
-        // Cape behind body
-        body.addChild("cape",
-                ModelPartBuilder.create()
-                        .uv(0, 32)
-                        .cuboid(-6.0f, 0.0f, 2.1f, 12.0f, 18.0f, 1.0f),
-                ModelTransform.pivot(0.0f, 0.0f, 0.0f));
-
-        // Right Arm (longer and thicker)
-        modelPartData.addChild("right_arm",
-                ModelPartBuilder.create()
-                        .uv(40, 16)
-                        .cuboid(-3.0f, -2.0f, -2.0f, 4.0f, 12.0f, 4.0f, new Dilation(scale - 1.0f)),
-                ModelTransform.pivot(-5.0f * scale, 2.0f, 0.0f));
-
-        // Left Arm
-        modelPartData.addChild("left_arm",
-                ModelPartBuilder.create()
-                        .uv(40, 16)
-                        .mirrored()
-                        .cuboid(-1.0f, -2.0f, -2.0f, 4.0f, 12.0f, 4.0f, new Dilation(scale - 1.0f)),
-                ModelTransform.pivot(5.0f * scale, 2.0f, 0.0f));
-
-        // Right Leg (longer)
-        modelPartData.addChild("right_leg",
-                ModelPartBuilder.create()
-                        .uv(0, 16)
-                        .cuboid(-2.0f, 0.0f, -2.0f, 4.0f, 12.0f, 4.0f, new Dilation(scale - 1.0f)),
-                ModelTransform.pivot(-1.9f, 12.0f, 0.0f));
-
-        // Left Leg
-        modelPartData.addChild("left_leg",
-                ModelPartBuilder.create()
-                        .uv(0, 16)
-                        .mirrored()
-                        .cuboid(-2.0f, 0.0f, -2.0f, 4.0f, 12.0f, 4.0f, new Dilation(scale - 1.0f)),
-                ModelTransform.pivot(1.9f, 12.0f, 0.0f));
-
-        return TexturedModelData.of(modelData, 128, 64); // Larger texture size
-    }
 
     @Override
     public void setAngles(GodBossEntityRenderState renderState) {
@@ -137,7 +71,7 @@ public class GodBossEntityModel extends EntityModel<GodBossEntityRenderState> {
             this.leftArm.pitch -= 0.3F;
         }
 
-        // Enraged animation
+
         if (renderState.isEnraged) {
             this.head.pitch += MathHelper.sin(renderState.age * 0.3F) * 0.1F;
             this.crown.yaw += MathHelper.sin(renderState.age * 0.2F) * 0.2F;

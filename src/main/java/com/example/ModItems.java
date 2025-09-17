@@ -42,7 +42,7 @@ public class ModItems {
         GOD_SWORD = registerItem("god_sword", key -> new GodSwordItem(GOD_MATERIAL, new Item.Settings().registryKey(key).maxCount(1)));
         MAGIC_CRYSTAL = registerItem("magic_crystal", key -> new Item(new Item.Settings().registryKey(key)));
         GOD_AXE = registerItem("god_axe", key ->new GodAxe(GOD_MATERIAL, new Item.Settings().registryKey(key).maxCount(1)));
-        // FIXED: Use SummoningCrystalItem instead of regular Item
+
         SUMMONING_CRYSTAL = registerItem("summoning_crystal", key -> new SummoningCrystalItem(new Item.Settings().registryKey(key).maxCount(1)));
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT)
@@ -75,7 +75,7 @@ public class ModItems {
 
             if (!world.isClient()) {
                 try {
-                    // Create the simple throwable axe entity
+
                     ThrowableGodAxeEntity thrownAxe = new ThrowableGodAxeEntity(world, user);
 
                     // Set velocity manually
@@ -268,8 +268,8 @@ public class ModItems {
                 // Debug print
                 System.out.println("God Sword postHit triggered!");
 
-                // Spawn effects BEFORE damage to ensure they show
-                // Fire particles for the sword (subtle amount)
+
+
                 serverWorld.spawnParticles(
                         ParticleTypes.FLAME,
                         target.getX(),
@@ -282,7 +282,7 @@ public class ModItems {
                         0.08                              // Speed
                 );
 
-                // Add some smoke for fire effect
+
                 serverWorld.spawnParticles(
                         ParticleTypes.SMOKE,
                         target.getX(),
@@ -295,7 +295,7 @@ public class ModItems {
                         0.05
                 );
 
-                // Sound effects for the sword - fiery/explosive sounds
+
                 serverWorld.playSound(
                         null,                              // Player (null = all players can hear)
                         target.getBlockPos(),              // Position
