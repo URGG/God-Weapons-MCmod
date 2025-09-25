@@ -2,17 +2,13 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "pattern": [
-    "CCC",
-    "CS ",
-    " S "
+    "C C ",
+    "C S ",
+    "  S "
   ],
   "key": {
-    "C": {
-      "item": "godmod:magic_crystal"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    }
+    "C": "godmod:magic_crystal",
+    "S": "minecraft:stick"
   },
   "result": {
     "id": "godmod:god_axe",

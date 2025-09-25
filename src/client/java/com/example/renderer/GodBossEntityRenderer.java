@@ -21,7 +21,7 @@ public class GodBossEntityRenderer extends LivingEntityRenderer<GodBossEntity, G
 
     @Override
     public Identifier getTexture(GodBossEntityRenderState renderState) {
-        // Check if the boss is enraged and return appropriate texture
+
         if (renderState.isEnraged) {
             return ENRAGED_TEXTURE;
         }
