@@ -30,7 +30,7 @@ public class GodBossEntityRenderer extends LivingEntityRenderer<GodBossEntity, G
 
     @Override
     protected void scale(GodBossEntityRenderState renderState, MatrixStack matrices) {
-        // Make the boss bigger
+
         float scale = 2.0f;
         matrices.scale(scale, scale, scale);
 
