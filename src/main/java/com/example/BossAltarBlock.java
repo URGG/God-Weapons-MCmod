@@ -22,4 +22,4 @@ public class BossAltarBlock extends Block {
         }
         return ActionResult.SUCCESS;
     }
-}
+}  

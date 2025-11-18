@@ -1,4 +1,8 @@
 {
     "item.godmod.god_sword": "God Sword",
-    "item.godmod.magic_crystal": "Magic Crystal"
+    "item.godmod.magic_crystal": "Magic Crystal",
+    "item.godmod.fireball_scroll": "Fireball Scroll",
+    "item.godmod.god_axe": "God Axe",
+    "item.godmod.god_boss_spawn_egg": "God Boss Spawner",
+    "item.godmod.summoning_crystal": "Summonning Eye"
 }
