@@ -34,6 +34,7 @@ public class ModItems {
     public static Item MAGIC_CRYSTAL;
     public static Item GOD_AXE;
     public static Item SUMMONING_CRYSTAL;
+    public static Item Devastation_DOME_SCROLL;
 
     public static void initialize() {
         System.out.println("Registering items for " + GodMod.MOD_ID);
@@ -42,6 +43,7 @@ public class ModItems {
         GOD_SWORD = registerItem("god_sword", key -> new GodSwordItem(GOD_MATERIAL, new Item.Settings().registryKey(key).maxCount(1)));
         MAGIC_CRYSTAL = registerItem("magic_crystal", key -> new Item(new Item.Settings().registryKey(key)));
         GOD_AXE = registerItem("god_axe", key ->new GodAxe(GOD_MATERIAL, new Item.Settings().registryKey(key).maxCount(1)));
+        Devastation_DOME_SCROLL = registerItem("devastation_dome_scroll", key -> new DevastationDomeScrollItem(new Item.Settings().registryKey(key).maxCount(16)));
 
         SUMMONING_CRYSTAL = registerItem("summoning_crystal", key -> new SummoningCrystalItem(new Item.Settings().registryKey(key).maxCount(1)));
 
@@ -56,6 +58,8 @@ public class ModItems {
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS)
                 .register(entries -> entries.add(new ItemStack(SUMMONING_CRYSTAL)));
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT)
+                .register(entries -> entries.add(new ItemStack(Devastation_DOME_SCROLL)));
     }
 
     public static Item registerItem(String name, Function<RegistryKey<Item>, Item> function) {

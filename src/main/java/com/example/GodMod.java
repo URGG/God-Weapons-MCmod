@@ -21,6 +21,10 @@ public class GodMod implements ModInitializer {
         ModScrolls.initialize();  // This was missing!
         LOGGER.info("ModScrolls.initialize() completed!");
         ModEntities.initialize();
+        LOGGER.info("ModEntities.initialize() completed!");
+        LOGGER.info("DEVASTATION_DOME_SCROLL is: " + (ModItems.Devastation_DOME_SCROLL != null ? "NOT NULL" : "NULL"));
+
+
         //ModBlocks.initialize();
 
 

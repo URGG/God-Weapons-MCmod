@@ -14,6 +14,7 @@ public class ModEntities {
 
     public static final EntityType<ThrowableGodAxeEntity> THROWABLE_GOD_AXE;
     public static final EntityType<GodBossEntity> GOD_BOSS;
+    public static final EntityType<DevastationDomeEntity> DEVASTATION_DOME_ENTITY;
 
     static {
         // Register Throwable God Axe Entity
@@ -43,6 +44,20 @@ public class ModEntities {
                         .trackedUpdateRate(1) // Boss entities should update frequently
                         .build(bossKey)
         );
+
+        // Register Devastation Dome Entity
+        Identifier domeId = Identifier.of(GodMod.MOD_ID, "devastation_dome");
+        RegistryKey<EntityType<?>> domeKey = RegistryKey.of(Registries.ENTITY_TYPE.getKey(), domeId);
+
+        DEVASTATION_DOME_ENTITY = Registry.register(
+                Registries.ENTITY_TYPE,
+                domeId,
+                FabricEntityTypeBuilder.<DevastationDomeEntity>create(SpawnGroup.MISC, DevastationDomeEntity::new)
+                        .dimensions(EntityDimensions.fixed(0.5f, 0.5f))
+                        .trackRangeBlocks(64)
+                        .trackedUpdateRate(20)
+                        .build(domeKey)
+        );
     }
 
     public static void initialize() {
@@ -52,6 +67,7 @@ public class ModEntities {
         FabricDefaultAttributeRegistry.register(GOD_BOSS, GodBossEntity.createAttributes());
 
         // Note: ThrowableGodAxeEntity doesn't need attributes as it's a projectile
+        // Note: DevastationDomeEntity doesn't need attributes as it's not a living entity
 
         System.out.println("Entity registration complete!");
     }
