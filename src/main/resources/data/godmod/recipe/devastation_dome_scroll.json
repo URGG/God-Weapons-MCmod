@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "  C ",
+    "C P C",
+    "  C "
+  ],
+  "key": {
+    "C": "godmod:magic_crystal",
+    "P": "minecraft:paper"
+  },
+  "result": {
+    "id": "godmod:devastaion_dome_scroll",
+    "count": 1
+  }
+}

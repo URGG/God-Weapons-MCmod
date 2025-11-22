@@ -7,7 +7,8 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
-
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.minecraft.client.render.entity.EmptyEntityRenderer;
 public class ExampleModClient implements ClientModInitializer {
 
 	@Override
@@ -17,6 +18,12 @@ public class ExampleModClient implements ClientModInitializer {
 
 		// Register the boss entity renderer
 		EntityRendererRegistry.register(ModEntities.GOD_BOSS, GodBossEntityRenderer::new);
+
+
+		EntityRendererRegistry.register(ModEntities.GOD_BOSS, GodBossEntityRenderer::new);
+
+
+		EntityRendererRegistry.register(ModEntities.DEVASTATION_DOME_ENTITY, EmptyEntityRenderer::new);
 
 
 
